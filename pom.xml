@@ -10,8 +10,16 @@
     <packaging>war</packaging>
     <name>Cybermonitor Test Servlets</name>
 
-    <dependencies>
+    <properties>
+        <jdk.version>1.7</jdk.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
+        <jstl.version>1.2</jstl.version>
+        <junit.version>4.11</junit.version>
+        <logback.version>1.0.13</logback.version>
+        <jcl-over-slf4j.version>1.7.5</jcl-over-slf4j.version>
+    </properties>
 
+    <dependencies>
 
         <!-- Spring Core -->
         <dependency>
@@ -25,6 +33,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>com.datastax.cassandra</groupId>
+            <artifactId>cassandra-driver-core</artifactId>
+            <version>2.1.6</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -57,26 +72,18 @@
             <version>${jstl.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
+        </dependency>
+
     </dependencies>
 
     <build>
-        <finalName>CounterWebApp</finalName>
+        <finalName>CybermonitorTestServlet</finalName>
 
         <plugins>
-            <!-- Eclipse project -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <!-- Always download and attach dependencies source code -->
-                    <downloadSources>true</downloadSources>
-                    <downloadJavadocs>false</downloadJavadocs>
-                    <!-- Avoid type mvn eclipse:eclipse -Dwtpversion=2.0 -->
-                    <wtpversion>2.0</wtpversion>
-                </configuration>
-            </plugin>
-
             <!-- Set JDK Compiler Level -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -94,7 +101,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <path>/CounterWebApp</path>
+                    <path>/CybermonitorTestServlet</path>
                 </configuration>
             </plugin>
 
