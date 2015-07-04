@@ -10,14 +10,12 @@
 <body>
 <h1>Maven + Spring MVC Web Project Example</h1>
 
-<h2>Message : ${message}</h2>
-<h2>Counter : ${counter}</h2>
-
-
-<form action="${pageContext.request.contextPath}/myservlet" method="post">
-  <input type="submit" name="button1" value="Button 1" />
-  <input type="submit" name="button2" value="Button 2" />
-  <input type="submit" name="button3" value="Button 3" />
+<form action="${pageContext.request.contextPath}/getHistory" method="post">
+  Object id: <input type="text" name="object_id"><br>
+  From: <input type="text" name="from"><br>
+  To: <input type="text" name="to"><br>
+  <input type="submit" name="submit"><br>
 </form>
+
 </body>
 </html>

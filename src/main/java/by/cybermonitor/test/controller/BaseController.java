@@ -1,11 +1,16 @@
 package by.cybermonitor.test.controller;
 
+import by.cybermonitor.test.service.CassandraService;
+import org.json.JSONArray;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Date;
 
 @Controller
 public class BaseController {
@@ -25,13 +30,18 @@ public class BaseController {
 
     }
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-    public String welcomeName(@PathVariable String name, ModelMap model) {
+    @RequestMapping(value = "/getHistory", method = RequestMethod.POST)
+    public String getHistory(@RequestParam(value="object_id", required=false) int objectId,
+                             @RequestParam(value="from", required=false) long from,
+                             @RequestParam(value="to", required=false) long to,
+            ModelMap model) {
 
-        model.addAttribute("message", "Welcome " + name);
-        model.addAttribute("counter", ++counter);
-        logger.debug("[welcomeName] counter : {}", counter);
-        return VIEW_INDEX;
+        CassandraService service = new CassandraService();
+        JSONArray array = service.getDataList(objectId, from, to);
+        model.addAttribute("time_start_transfer", System.currentTimeMillis());
+        model.addAttribute("track", array);
+        model.addAttribute("obj_id", objectId);
+        return "history";
 
     }
 }

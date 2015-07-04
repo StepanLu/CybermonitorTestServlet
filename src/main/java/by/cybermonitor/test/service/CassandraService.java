@@ -33,11 +33,11 @@ public class CassandraService {
         JSONArray list = new JSONArray();
         Session session= cluster.connect("devices");
         try {
-            PreparedStatement statement = session.prepare("SELECT record_index, event_code, lat, lng, speed, course, last_drive, gps_valid, event_time FROM device_2_3_events WHERE object_id = ? AND event_time >= ? AND event_time <= ?;");
+            PreparedStatement statement = session.prepare("SELECT * FROM device_2_3_events WHERE object_id = ? AND event_time >= ? AND event_time <= ?;");
             BoundStatement boundStatement = new BoundStatement(statement);
-            boundStatement.setInt(1, obj_id);
-            boundStatement.setLong(2, from);
-            boundStatement.setLong(3, to);
+            boundStatement.setInt(0, obj_id);
+            boundStatement.setLong(1, from);
+            boundStatement.setLong(2, to);
             ResultSetFuture rset = session.executeAsync(boundStatement);
             ResultSet result = null;
             if (rset.getUninterruptibly() != null) {
@@ -56,11 +56,11 @@ public class CassandraService {
                 JSONObject jo = new JSONObject();
                 jo.put("id", row.getInt("record_index"));
                 jo.put("time", row.getLong("event_time"));
-                jo.put("lat", row.getDouble("lat"));
-                jo.put("lng", row.getDouble("lng"));
-                jo.put("speed", row.getInt("speed"));
+                jo.put("lat", row.getFloat("lat"));
+                jo.put("lng", row.getFloat("lng"));
+                jo.put("speed", row.getFloat("speed"));
                 jo.put("course", row.getInt("course"));
-                jo.put("last_interval", row.getDouble("last_drive"));
+                jo.put("last_interval", row.getFloat("last_drive"));
                 jo.put("gps_valid", row.getBool("gps_valid"));
                 jo.put("code", row.getInt("event_code"));
                 list.put(jo);
